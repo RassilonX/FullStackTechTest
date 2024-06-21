@@ -1,6 +1,6 @@
 using System.Data;
 using System.Text;
-using Models;
+using Database.Models;
 using MySql.Data.MySqlClient;
 
 namespace DAL;

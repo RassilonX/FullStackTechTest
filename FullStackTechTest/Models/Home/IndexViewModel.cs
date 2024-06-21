@@ -1,5 +1,5 @@
 using DAL;
-using Models;
+using Database.Models;
 
 namespace FullStackTechTest.Models.Home;
 

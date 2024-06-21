@@ -1,4 +1,4 @@
-using Models;
+using Database.Models;
 
 namespace DAL;
 
