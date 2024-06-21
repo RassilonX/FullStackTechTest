@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Text;
 using Database.Models;
+using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace DAL;
@@ -14,11 +15,11 @@ public class PersonRepository : IPersonRepository
         var sql = new StringBuilder();
         sql.AppendLine("SELECT * FROM people");
 
-        await using (var connection = new MySqlConnection(Config.DbConnectionString))
+        await using (var connection = new SqlConnection(Config.DbConnectionString))
         {
             await connection.OpenAsync();
             
-            var command = new MySqlCommand(sql.ToString(), connection);
+            var command = new SqlCommand(sql.ToString(), connection);
             
             var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -38,11 +39,11 @@ public class PersonRepository : IPersonRepository
         sql.AppendLine("SELECT * FROM people");
         sql.AppendLine("WHERE Id = @personId");
 
-        await using (var connection = new MySqlConnection(Config.DbConnectionString))
+        await using (var connection = new SqlConnection(Config.DbConnectionString))
         {
             await connection.OpenAsync();
 
-            var command = new MySqlCommand(sql.ToString(), connection);
+            var command = new SqlCommand(sql.ToString(), connection);
             command.Parameters.AddWithValue("personId", personId);
 
             var reader = await command.ExecuteReaderAsync();
@@ -64,11 +65,11 @@ public class PersonRepository : IPersonRepository
         sql.AppendLine("GMC = @gmc");
         sql.AppendLine("WHERE Id = @personId");
         
-        await using (var connection = new MySqlConnection(Config.DbConnectionString))
+        await using (var connection = new SqlConnection(Config.DbConnectionString))
         {
             await connection.OpenAsync();
 
-            var command = new MySqlCommand(sql.ToString(), connection);
+            var command = new SqlCommand(sql.ToString(), connection);
             command.Parameters.AddWithValue("firstName", person.FirstName);
             command.Parameters.AddWithValue("lastName", person.LastName);
             command.Parameters.AddWithValue("gmc", person.GMC);

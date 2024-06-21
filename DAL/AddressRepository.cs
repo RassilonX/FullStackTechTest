@@ -1,6 +1,7 @@
 using System.Data;
 using System.Text;
 using Database.Models;
+using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace DAL;
@@ -15,11 +16,11 @@ public class AddressRepository : IAddressRepository
         sql.AppendLine("SELECT * FROM addresses");
         sql.AppendLine("WHERE PersonId = @personId");
 
-        await using (var connection = new MySqlConnection(Config.DbConnectionString))
+        await using (var connection = new SqlConnection(Config.DbConnectionString))
         {
             await connection.OpenAsync();
             
-            var command = new MySqlCommand(sql.ToString(), connection);
+            var command = new SqlCommand(sql.ToString(), connection);
             command.Parameters.AddWithValue("personId", personId);
             
             var reader = await command.ExecuteReaderAsync();
@@ -41,11 +42,11 @@ public class AddressRepository : IAddressRepository
         sql.AppendLine("Postcode = @postcode");
         sql.AppendLine("WHERE Id = @addressId");
         
-        await using (var connection = new MySqlConnection(Config.DbConnectionString))
+        await using (var connection = new SqlConnection(Config.DbConnectionString))
         {
             await connection.OpenAsync();
 
-            var command = new MySqlCommand(sql.ToString(), connection);
+            var command = new SqlCommand(sql.ToString(), connection);
             command.Parameters.AddWithValue("line1", address.Line1);
             command.Parameters.AddWithValue("city", address.City);
             command.Parameters.AddWithValue("postcode", address.Postcode);
